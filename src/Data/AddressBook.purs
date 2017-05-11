@@ -2,7 +2,8 @@ module Data.AddressBook where
 
 import Prelude
 import Control.Plus (empty)
-import Data.List (List(..))
+import Data.List (List(..), filter, head)
+import Data.Maybe (Maybe)
 
 type Entry =
   { firstName :: String
@@ -33,3 +34,9 @@ emptyBook = empty
 
 insertEntry :: Entry -> AddressBook -> AddressBook
 insertEntry = Cons
+
+findEntry :: String -> String -> AddressBook -> Maybe Entry
+findEntry firstName lastName = head <<< filter filterEntry
+  where
+    filterEntry :: Entry -> Boolean
+    filterEntry entry = entry.firstName == firstName && entry.lastName == lastName
